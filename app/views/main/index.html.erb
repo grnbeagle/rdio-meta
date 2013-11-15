@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .bookmarklet {
+        background: #eee;
+        border: 1px solid #cdcdcd;
+        color: #000;
+        padding: 3px 5px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <a href="javascript: (function () {  if (!document.getElementById('rdio-meta')) {    var s = document.createElement('script');    s.setAttribute('id', 'rdio-meta');    s.setAttribute('src', 'http://localhost:3000/js/rdio-meta-bookmarklet.js');    document.body.appendChild(s);    } else if (RdioMeta) {    RdioMeta.run();  }}());" class="bookmarklet">♫ Rdio Meta</a>
+  </body>
+</html>

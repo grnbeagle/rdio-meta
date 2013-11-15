@@ -12,8 +12,18 @@ var RdioMeta;
       // create elements
       var container = $('.RdioMetaContainer');
       if (container.length == 0) {
-        container = $('<div></div>').addClass('RdioMetaContainer');
+        var mainContent = $('.main_content');
+        var mainContentOffset = mainContent.offset();
+        container = $('<div></div>')
+          .addClass('RdioMetaContainer')
+          .css({left: mainContentOffset.left, top: mainContentOffset.top+parseInt(mainContent.css('padding-top'))});
         $(document.body).append(container);
+
+        if (R.app.player) {
+          R.app.player.listen(R.player, 'change:playingTrack', function() {
+            RdioMeta.run();
+          });
+        }
       }
 
       var wiki = container.find('.article');
@@ -44,7 +54,15 @@ var RdioMeta;
         url: serverUrl + '/ws/get/' + entity + '?artist=' + artist + '&song=' + song,
         dataType: 'jsonp',
       }).done(function(data) {
-        $('.RdioMetaContainer .' + entity).html(data.content);
+        if (data.url) {
+          $('.RdioMetaContainer .' + entity).html(
+            data.content + '<p>' + 
+            '<a href="' + data.url + '" target="_blank">' + data.url + '</a></p>'
+          );
+        } else {
+          $('.RdioMetaContainer .' + entity).html(data.content);
+        }
+        $('.RdioMetaContainer .' + entity).css({display: 'inline-block'});
       });
     }
   };
