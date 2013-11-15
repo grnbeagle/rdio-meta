@@ -1,0 +1,23 @@
+.RdioMetaContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 200;
+}
+.RdioMetaContainer > div {
+  color: #000;
+  background-color: #fff;
+  width: 500px;
+  height: 200px;
+  overflow: scroll;
+  padding: 20px;
+  margin: 15px;
+}
+.RdioMetaContainer .article {
+  position: relative;
+  display: inline-block;
+}
+.RdioMetaContainer .lyrics {
+  position: relative;
+  display: inline-block;
+}
