@@ -3,10 +3,6 @@ require 'open-uri'
 
 module Query
   class Youtube < Query::BaseSource
-  	
-  	api_browser_key = 'AIzaSyDQCAcFXnyDegAWsiPXd2LuaHQYOseAFvE'
-
-    attr_accessor :url, :artist, :song
 
     def initialize(artist, song)
       super(artist, song)

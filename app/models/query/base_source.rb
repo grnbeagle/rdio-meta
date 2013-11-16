@@ -31,5 +31,18 @@ module Query
       return result
     end
 
+    def process_html(url, selector_objects)
+      result = {}
+      document = Nokogiri::HTML(open(url))
+
+      selector_objects.each do |item|
+        selected = document.css( item[:exp] )
+        if selected.size > 0
+          result[item[:name]] = item[:select].call(selected[0])
+        end
+      end
+      return result
+    end
+
   end
 end
