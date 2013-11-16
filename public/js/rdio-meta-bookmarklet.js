@@ -1,6 +1,6 @@
 var RdioMeta;
 (function() {
-  var serverUrl = "http://localhost:3000";
+  var serverUrl = "http://rdio-meta.herokuapp.com";
   var rdioUrl = "http://www.rdio.com";
 
   RdioMeta = {

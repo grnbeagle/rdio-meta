@@ -1,0 +1,10 @@
+javascript: (function () {
+  if (!document.getElementById('rdio-meta')) {
+    var s = document.createElement('script');
+    s.setAttribute('id', 'rdio-meta');
+    s.setAttribute('src', 'http://localhost:3000/js/rdio-meta-bookmarklet.js');
+    document.body.appendChild(s);  
+  } else if (RdioMeta) {
+    RdioMeta.run();
+  }
+}());
