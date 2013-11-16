@@ -1,26 +1,84 @@
-<!DOCTYPE html>
-<html class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      .bookmarklet {
-        background: #eee;
-        border: 1px solid #cdcdcd;
-        color: #000;
-        padding: 3px 5px;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <!--[if lt IE 8]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+<style type="text/css">
+  body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
 
-    <a href="javascript: (function () {  if (!document.getElementById('rdio-meta')) {    var s = document.createElement('script');    s.setAttribute('id', 'rdio-meta');    s.setAttribute('src', 'http://localhost:3000/js/rdio-meta-bookmarklet.js');    document.body.appendChild(s);    } else if (RdioMeta) {    RdioMeta.run();  }}());" class="bookmarklet">♫ Rdio Meta</a>
-  </body>
-</html>
+  /* Custom container */
+  .container-narrow {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+  .container-narrow > hr {
+    margin: 30px 0;
+  }
+
+  /* Main marketing message and sign up button */
+  .jumbotron {
+    margin: 60px 0;
+    text-align: center;
+  }
+  .jumbotron h1 {
+    font-size: 72px;
+    line-height: 1;
+  }
+  .jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+
+  /* Supporting marketing content */
+  .marketing {
+    margin: 60px 0;
+  }
+  .marketing p + h4 {
+    margin-top: 28px;
+  }
+  .bookmarklet {
+    background: #eee;
+    border: 1px solid #cdcdcd;
+    color: #000;
+    padding: 3px 5px;
+    text-decoration: none;
+  }
+  .screenshot {
+    background: #eee;
+    border: 1px solid #ddd;
+    color: #888;
+    height: 400px;
+    text-align: center;
+    width: 700px;
+  }
+</style>
+
+<div class="container-narrow">
+
+  <div class="masthead">
+    <ul class="nav nav-pills pull-right">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <h3 class="muted">Rdio Meta Bookmarklet</h3>
+  </div>
+
+  <hr>
+
+  <div class="jumbotron">
+    <p class="lead">
+      Drag and drop the following bookmarklet to your browser's favorites bar, and use it while
+      listening to music on <a href="http://rdio.com">Rdio.com</a>
+    </p>
+
+    <a href="javascript: (function () {  if (!document.getElementById('rdio-meta')) {    var s = document.createElement('script');    s.setAttribute('id', 'rdio-meta');    s.setAttribute('src', 'http://localhost:3000/js/rdio-meta-bookmarklet.js');    document.body.appendChild(s);    } else if (RdioMeta) {    RdioMeta.run();  }}());" class="btn">♫ Rdio Meta</a>
+  </div>
+
+  <hr>
+  <div class="screenshot"><br><br>screenshot here</div>
+  <br><br>
+  <div class="footer">
+    <p>
+      Source available on <a href="https://github.com/grnbeagle/rdio-meta">Github</a>
+    </p>
+  </div>
+
+</div> <!-- /container -->
