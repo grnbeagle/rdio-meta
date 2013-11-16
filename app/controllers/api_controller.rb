@@ -12,7 +12,7 @@ class ApiController < ApplicationController
     when "video"
       query = Query::Youtube.new(params[:artist], params[:song])
     when "events"
-      query = Query::Concerts.new(params[:artist], params[:song])
+      query = Query::Concerts.new(params[:artist])
     end
     render json: query.result, :callback => params[:callback]
   end
