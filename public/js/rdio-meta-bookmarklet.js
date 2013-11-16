@@ -25,7 +25,7 @@ var RdioMeta;
         $(document.body).append(container);
         this.resize();
 
-        // stuff that needs to run only once
+        // stuff that needs to happen only once
         if (R.app.player) {
           R.app.player.listen(R.player, 'change:playingTrack', function() {
             RdioMeta.run(true);
