@@ -20,6 +20,7 @@ module Query
       result = {}
       params = URI::encode(params)
       document = Nokogiri::XML(open("#{self.api_url}?#{params}"))
+      document.remove_namespaces!
 
       xpath_objects.each do |item|
         selected = document.xpath( item[:exp] )
