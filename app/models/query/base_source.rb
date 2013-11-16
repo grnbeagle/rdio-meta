@@ -18,12 +18,7 @@ module Query
     #
     def make_request(params, xpath_objects)
       result = {}
-      # if params.length > 0
-      #   params = URI::encode(params)
-      #   api_query = "#{self.api_url}?#{params}"
-      # else
-      api_query = "#{self.api_url}?#{params}"
-      params = URI::encode(api_query)
+      api_query = "#{self.api_url}?#{URI.encode(params)}"
       document = Nokogiri::XML(open(api_query))
       document.remove_namespaces!
 

@@ -5,7 +5,7 @@ var RdioMeta;
 
   RdioMeta = {
     on: false,
-    entities: ['article', 'lyrics', 'video'],
+    entities: ['article', 'lyrics', 'video', 'events'],
     setupDom: function() {
       // add stylesheet
       var css = $('#rdio-meta-css');
@@ -21,14 +21,16 @@ var RdioMeta;
         var mainContentOffset = mainContent.offset();
         container = $('<div></div>')
           .addClass('RdioMetaContainer')
-          .css({left: 20, top: mainContentOffset.top+parseInt(mainContent.css('padding-top'))});
+          .css({left: 10, top: mainContentOffset.top+parseInt(mainContent.css('padding-top'))});
         $(document.body).append(container);
         this.resize();
 
         // stuff that needs to happen only once
         if (R.app.player) {
           R.app.player.listen(R.player, 'change:playingTrack', function() {
-            RdioMeta.run(true);
+            if (RdioMeta.on) {
+              RdioMeta.update();
+            }
           });
         }
         $(window).resize(function() {
@@ -49,17 +51,13 @@ var RdioMeta;
       return {artist: artist.text(), title: title.text()};
     },
     run: function(forceRefresh) {
-      if (forceRefresh) {
-        this.update();
+      if (this.on) {
+        $('.RdioMetaContainer').hide();
       } else {
-        if (this.on) {
-          $('.RdioMetaContainer').hide();
-        } else {
-          this.update();
-        }
-        this.on = !this.on;
-        this.updateFavicon((this.on ? serverUrl : rdioUrl) + '/favicon.ico');
+        this.update();
       }
+      this.on = !this.on;
+      this.updateFavicon((this.on ? serverUrl : rdioUrl) + '/favicon.ico');
     },
     update: function() {
       $('.RdioMetaContainer').show();
@@ -68,6 +66,49 @@ var RdioMeta;
       _.each(this.entities, function(entity) {
         this.request(entity, current.artist, current.title);
       }, this);
+    },
+    resize: function() {
+      var height = $(window).height();
+      var newHeight = (height - $('.App_PlayerFooter').height() - $('.App_Header').height() - 40);
+      $('.RdioMetaContainer').height(newHeight);
+    },
+    request: function(entity, artist, song) {
+      var self = this;
+      $.ajax({
+        url: serverUrl + '/ws/get/' + entity + '?artist=' + artist + '&song=' + song,
+        dataType: 'jsonp',
+      }).done(function(data) {
+        var content;
+        if(entity == 'events') {
+          content = self.getEventsText(data);
+        } else {
+          content = data.content;
+          if (content) {
+            if (entity == 'video') {
+              var videoContainer = $('.video');
+              content = self.getYouTubeEmbed(content, videoContainer.width()-40, videoContainer.height()-70);
+            }
+            if (data.title) {
+              content = "<h1>" + data.title + "</h1>" + content;
+            }
+            if (data.url) {
+              content += '<p><a href="' + data.url + '" target="_blank">' + data.url + '</a></p>';
+            }
+          } else {
+            content = 
+            "<p>" + entity + " not found. Why don't you" +
+            " <a href='http://www.google.com/#q=" + artist + " " + song + " " + entity + 
+            "'>google</a>?</p>";
+          }
+        }
+        $('.RdioMetaContainer .' + entity + ' .content').html(content);
+        $('.RdioMetaContainer .' + entity).show();
+      });
+    },
+    getYouTubeEmbed: function(youtubeId, width, height) {
+      return "<iframe width=\"" + width + "\" height=\"" + height + 
+              "\" src=\"//www.youtube.com/embed/" + youtubeId + 
+              "\" frameborder=\"0\" allowfullscreen></iframe>";
     },
     updateFavicon: function(src) {
       // clean up existing favicons
@@ -84,43 +125,18 @@ var RdioMeta;
       }
       _iframe.attr('src', 'about:blank');
     },
-    resize: function() {
-      var height = $(window).height();
-      var newHeight = (height - $('.App_PlayerFooter').height() - $('.App_Header').height() - 40);
-      $('.RdioMetaContainer').height(newHeight);
-    },
-    request: function(entity, artist, song) {
-      var self = this;
-      $.ajax({
-        url: serverUrl + '/ws/get/' + entity + '?artist=' + artist + '&song=' + song,
-        dataType: 'jsonp',
-      }).done(function(data) {
-        var content = data.content;
-        if (content) {
-          if (entity == 'video') {
-            var videoContainer = $('.video');
-            content = self.getYouTubeEmbed(content, videoContainer.width()-40, videoContainer.height()-70);
-          }
-          if (data.title) {
-            content = "<h1>" + data.title + "</h1>" + content;
-          }
-          if (data.url) {
-            content += '<p><a href="' + data.url + '" target="_blank">' + data.url + '</a></p>';
-          }
-        } else {
-          content = 
-          "<p>" + entity + " not found. Why don't you" +
-          " <a href='http://www.google.com/#q=" + artist + " " + song + " " + entity + 
-          "'>google</a>?</p>";
-        }
-        $('.RdioMetaContainer .' + entity + ' .content').html(content);
-        $('.RdioMetaContainer .' + entity).show();
+    getEventsText: function(list) {
+      var result = '<h1>Events</h1>';
+      if (list.length == 0) {
+        result += "events not found";
+      } else {
+        result += "<ul>";
+      }
+      _.each(list, function(item) {
+        result += '<li><a href="' + item.url + '">' + item.title + "</a>, " + item.date + "</li>";
       });
-    },
-    getYouTubeEmbed: function(youtubeId, width, height) {
-      return "<iframe width=\"" + width + "\" height=\"" + height + 
-              "\" src=\"//www.youtube.com/embed/" + youtubeId + 
-              "\" frameborder=\"0\" allowfullscreen></iframe>";
+      result += '</ul>'
+      return result;
     }
   };
   RdioMeta.run();
