@@ -16,16 +16,19 @@ module Query
     # xpath => a list of xpath objects 
     # e.g. {:exp => "//items/item", :name => :content, :select => lambda { |n| n.text }}
     #
-    def make_request(params, xpath_objects)
-      result = {}
-      params = URI::encode(params)
-      document = Nokogiri::XML(open("#{self.api_url}?#{params}"))
+    def make_request(params, xpath_objects, count=1)
+      result = []
+      api_query = "#{self.api_url}?#{params}"
+      params = URI::encode(api_query)
+      document = Nokogiri::XML(open(api_query))
       document.remove_namespaces!
 
       xpath_objects.each do |item|
         selected = document.xpath( item[:exp] )
         if selected.size > 0
-          result[item[:name]] = item[:select].call(selected[0])
+          for i in 0..count
+            result << {item[:name] => item[:select].call(selected[i])}
+          end
         end
       end
       return result
