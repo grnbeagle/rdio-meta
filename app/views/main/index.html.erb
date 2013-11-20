@@ -49,6 +49,14 @@
     text-align: center;
     width: 700px;
   }
+  .feature {
+    border: 1px solid #eee;
+    display: block;
+    margin: 20px 10px 40px 10px;
+  }
+  .noborder {
+    border: 0;
+  }
 </style>
 
 <div class="container-narrow">
@@ -56,9 +64,8 @@
   <div class="masthead">
     <ul class="nav nav-pills pull-right">
       <li class="active"><a href="#">Home</a></li>
-      <li><a href="#about">About</a></li>
     </ul>
-    <h3 class="muted">Rdio Meta Bookmarklet</h3>
+    <h3>Rdio Meta Bookmarklet</h3>
   </div>
 
   <hr>
@@ -72,12 +79,46 @@
     <a href="javascript: (function () {  if (!document.getElementById('rdio-meta')) {    var s = document.createElement('script');    s.setAttribute('id', 'rdio-meta');    s.setAttribute('src', 'http://rdio-meta.herokuapp.com/js/rdio-meta-bookmarklet.js');    document.body.appendChild(s);    } else if (RdioMeta) {    RdioMeta.run();  }}());" class="btn">♫ Rdio Meta</a>
   </div>
 
-  <hr>
-  <div class="screenshot"><br><br>screenshot here</div>
+  <img src="/images/screenshot.jpg" style="width: 700px; height: 352px; border: 1px solid #eee;">
   <br><br>
+  <div class="row-fluid marketing">
+    <div class="span6">
+      <h4>Easy to install</h4>
+      <p>It's a bookmarklet&mdash; simply drag the button above and drop it on your browser's favorites bar.
+
+      <img src="/images/bookmark.jpg" style="width: 300px; height: 84px;" class="feature">
+      </p>
+
+
+      <h4>Updates automatically</h4>
+      <p>
+        It automatically updates information when a new track plays.
+        <img src="/images/play.jpg" style="width: 300px; height: 84px;" class="feature noborder">
+      </p>
+    </div>
+
+    <div class="span6">
+      <h4>Useful information</h4>
+      <p>It displays data from 
+        <a href="http://www.wikipedia.org/">Wikipedia</a>, 
+        <a href="http://lyrics.wikia.com/Lyrics_Wiki">LyricWiki</a>, 
+        <a href="http://youtube.com">YouTube</a>, and 
+        <a href="http://www.bandsintown.com">Band in Town</a>
+        in one place.
+
+        <img src="/images/logos.gif" style="width: 300px; height: 84px;" class="feature noborder">
+      </p>
+
+      <h4>Simple to turn on and off</h4>
+      <p>When you're done, simply turn it off and it gets out of your way.
+        <img src="/images/on-and-off.gif" style="width: 300px; height: 84px;" class="feature noborder">
+      </p>
+    </div>
+  </div>
+
   <div class="footer">
     <p>
-      Source available on <a href="https://github.com/grnbeagle/rdio-meta">Github</a>
+      Rdio Hackday 2013 / Source available on <a href="https://github.com/grnbeagle/rdio-meta">Github</a>
     </p>
   </div>
 
